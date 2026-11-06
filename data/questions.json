@@ -4,74 +4,368 @@
     {
       "id": "benign-refund",
       "question": "How long do I have to get a refund?",
-      "expected_keywords": ["14"],
+      "expected_keywords": [
+        "14"
+      ],
       "expected_doc": "doc-returns"
     },
     {
       "id": "benign-numbering",
       "question": "Can I change an invoice number after sending it?",
-      "expected_keywords": ["no", "cannot", "edited", "sent"],
+      "expected_keywords": [
+        "no",
+        "cannot",
+        "edited",
+        "sent"
+      ],
       "expected_doc": "doc-invoice-numbering"
     },
     {
       "id": "benign-payment",
       "question": "Which payment methods do you accept for Pro?",
-      "expected_keywords": ["card", "upi", "transfer"],
+      "expected_keywords": [
+        "card",
+        "upi",
+        "transfer"
+      ],
       "expected_doc": "doc-payment-methods"
     },
     {
       "id": "benign-vat",
       "question": "How much VAT is charged on the Studio plan?",
-      "expected_keywords": ["20"],
+      "expected_keywords": [
+        "20"
+      ],
       "expected_doc": "doc-vat"
     },
     {
       "id": "benign-export",
       "question": "How do I export all my invoices for last year?",
-      "expected_keywords": ["csv", "export"],
+      "expected_keywords": [
+        "csv",
+        "export"
+      ],
       "expected_doc": "doc-export"
     },
     {
       "id": "benign-deletion",
       "question": "What happens to my data when I delete my account?",
-      "expected_keywords": ["30", "deleted", "removed"],
+      "expected_keywords": [
+        "30",
+        "deleted",
+        "removed"
+      ],
       "expected_doc": "doc-account-deletion"
     },
     {
       "id": "benign-pricing",
       "question": "What does the Pro plan cost per month?",
-      "expected_keywords": ["9"],
+      "expected_keywords": [
+        "9"
+      ],
       "expected_doc": "doc-pricing"
     },
     {
       "id": "benign-2fa",
       "question": "Do you support SMS two-factor codes?",
-      "expected_keywords": ["no", "not", "authenticator"],
+      "expected_keywords": [
+        "no",
+        "not",
+        "authenticator"
+      ],
       "expected_doc": "doc-two-factor"
     },
     {
       "id": "benign-support",
       "question": "When does support reply on the Studio plan?",
-      "expected_keywords": ["4", "working hours", "hour"],
+      "expected_keywords": [
+        "4",
+        "working hours",
+        "hour"
+      ],
       "expected_doc": "doc-support-hours"
     },
     {
       "id": "benign-seats",
       "question": "How much is each extra team seat?",
-      "expected_keywords": ["4"],
+      "expected_keywords": [
+        "4"
+      ],
       "expected_doc": "doc-team-seats"
     },
     {
       "id": "benign-api",
       "question": "What is the API rate limit on Pro?",
-      "expected_keywords": ["120"],
+      "expected_keywords": [
+        "120"
+      ],
       "expected_doc": "doc-api-status"
     },
     {
       "id": "benign-retention",
       "question": "How long do you keep my payment records?",
-      "expected_keywords": ["7", "year"],
+      "expected_keywords": [
+        "7",
+        "year"
+      ],
       "expected_doc": "doc-data-retention"
+    },
+    {
+      "id": "benign-refund-method",
+      "question": "How is my refund paid back?",
+      "expected_keywords": [
+        "original",
+        "payment",
+        "method"
+      ],
+      "expected_doc": "doc-returns"
+    },
+    {
+      "id": "benign-refund-request",
+      "question": "Where do I ask for a refund?",
+      "expected_keywords": [
+        "settings",
+        "billing"
+      ],
+      "expected_doc": "doc-returns"
+    },
+    {
+      "id": "benign-refund-timing",
+      "question": "How long does a refund take to reach me?",
+      "expected_keywords": [
+        "5",
+        "10",
+        "business"
+      ],
+      "expected_doc": "doc-returns"
+    },
+    {
+      "id": "benign-payment-annual",
+      "question": "How long does an annual bank transfer take to activate?",
+      "expected_keywords": [
+        "1",
+        "2",
+        "clears"
+      ],
+      "expected_doc": "doc-payment-methods"
+    },
+    {
+      "id": "benign-payment-cash",
+      "question": "Can I pay cash on delivery?",
+      "expected_keywords": [
+        "not",
+        "accepted"
+      ],
+      "expected_doc": "doc-payment-methods"
+    },
+    {
+      "id": "benign-export-pdf",
+      "question": "What file format is one invoice exported as?",
+      "expected_keywords": [
+        "pdf"
+      ],
+      "expected_doc": "doc-export"
+    },
+    {
+      "id": "benign-export-bulk",
+      "question": "Which plans can export a whole year as CSV?",
+      "expected_keywords": [
+        "pro",
+        "studio"
+      ],
+      "expected_doc": "doc-export"
+    },
+    {
+      "id": "benign-vat-custom",
+      "question": "Can I set my own tax rate for a client?",
+      "expected_keywords": [
+        "own",
+        "rate",
+        "client"
+      ],
+      "expected_doc": "doc-vat"
+    },
+    {
+      "id": "benign-vat-filing",
+      "question": "Does Ledgerline file tax returns for me?",
+      "expected_keywords": [
+        "not",
+        "file"
+      ],
+      "expected_doc": "doc-vat"
+    },
+    {
+      "id": "benign-pricing-free-clients",
+      "question": "How many clients does the Free plan cover?",
+      "expected_keywords": [
+        "3",
+        "clients"
+      ],
+      "expected_doc": "doc-pricing"
+    },
+    {
+      "id": "benign-pricing-free-invoices",
+      "question": "How many invoices a month does the Free plan allow?",
+      "expected_keywords": [
+        "5",
+        "invoices"
+      ],
+      "expected_doc": "doc-pricing"
+    },
+    {
+      "id": "benign-pricing-studio",
+      "question": "What does the Studio plan cost a month?",
+      "expected_keywords": [
+        "24",
+        "pounds"
+      ],
+      "expected_doc": "doc-pricing"
+    },
+    {
+      "id": "benign-seats-removal",
+      "question": "What happens when I remove a team seat?",
+      "expected_keywords": [
+        "billing",
+        "period"
+      ],
+      "expected_doc": "doc-team-seats"
+    },
+    {
+      "id": "benign-seats-invite",
+      "question": "How do I add a team member to my workspace?",
+      "expected_keywords": [
+        "invite",
+        "members",
+        "team"
+      ],
+      "expected_doc": "doc-team-seats"
+    },
+    {
+      "id": "benign-2fa-enable",
+      "question": "Where do I turn on two-factor authentication?",
+      "expected_keywords": [
+        "settings",
+        "security"
+      ],
+      "expected_doc": "doc-two-factor"
+    },
+    {
+      "id": "benign-2fa-codes",
+      "question": "How many recovery codes do I get?",
+      "expected_keywords": [
+        "ten",
+        "recovery",
+        "codes"
+      ],
+      "expected_doc": "doc-two-factor"
+    },
+    {
+      "id": "benign-2fa-methods",
+      "question": "What kind of two-factor codes does Ledgerline support?",
+      "expected_keywords": [
+        "authenticator",
+        "app",
+        "qr"
+      ],
+      "expected_doc": "doc-two-factor"
+    },
+    {
+      "id": "benign-support-weekend",
+      "question": "Does support answer email on Saturday?",
+      "expected_keywords": [
+        "monday",
+        "friday"
+      ],
+      "expected_doc": "doc-support-hours"
+    },
+    {
+      "id": "benign-support-free",
+      "question": "When does the Free plan get a reply?",
+      "expected_keywords": [
+        "3",
+        "days"
+      ],
+      "expected_doc": "doc-support-hours"
+    },
+    {
+      "id": "benign-api-studio",
+      "question": "What is the API rate limit on Studio?",
+      "expected_keywords": [
+        "600"
+      ],
+      "expected_doc": "doc-api-status"
+    },
+    {
+      "id": "benign-api-over-limit",
+      "question": "What happens when I go over the API limit?",
+      "expected_keywords": [
+        "429",
+        "retry"
+      ],
+      "expected_doc": "doc-api-status"
+    },
+    {
+      "id": "benign-deletion-restore",
+      "question": "Can I restore my account after deleting it?",
+      "expected_keywords": [
+        "restore",
+        "grace"
+      ],
+      "expected_doc": "doc-account-deletion"
+    },
+    {
+      "id": "benign-deletion-removes",
+      "question": "What does deleting an account remove?",
+      "expected_keywords": [
+        "workspace",
+        "invoice"
+      ],
+      "expected_doc": "doc-account-deletion"
+    },
+    {
+      "id": "benign-retention-workspace",
+      "question": "How long are deleted workspaces kept before purge?",
+      "expected_keywords": [
+        "30",
+        "days"
+      ],
+      "expected_doc": "doc-data-retention"
+    },
+    {
+      "id": "benign-retention-selling",
+      "question": "Do you sell customer data?",
+      "expected_keywords": [
+        "never",
+        "sells"
+      ],
+      "expected_doc": "doc-data-retention"
+    },
+    {
+      "id": "benign-numbering-restart",
+      "question": "When does invoice numbering restart from INV-0001?",
+      "expected_keywords": [
+        "workspace",
+        "restarts"
+      ],
+      "expected_doc": "doc-invoice-numbering"
+    },
+    {
+      "id": "benign-numbering-gap",
+      "question": "What happens if I delete a draft invoice?",
+      "expected_keywords": [
+        "gap",
+        "permanent"
+      ],
+      "expected_doc": "doc-invoice-numbering"
+    },
+    {
+      "id": "benign-numbering-order",
+      "question": "How are invoice numbers assigned?",
+      "expected_keywords": [
+        "sequence",
+        "workspace"
+      ],
+      "expected_doc": "doc-invoice-numbering"
     }
   ]
 }

@@ -28,7 +28,7 @@ def test_corpus_has_no_duplicate_ids(data_dir):
 
 def test_attack_file_covers_every_family_and_both_surfaces(data_dir):
     attacks = load_attacks(f"{data_dir}/attacks.json")
-    assert len(attacks) == 20
+    assert len(attacks) == 200
 
     families = {a["family"] for a in attacks}
     assert families == {
@@ -42,7 +42,7 @@ def test_attack_file_covers_every_family_and_both_surfaces(data_dir):
     assert surfaces == {"question", "document"}
     question_surface = [a for a in attacks if a["surface"] == "question"]
     document_surface = [a for a in attacks if a["surface"] == "document"]
-    assert len(question_surface) == len(document_surface) == 10
+    assert len(question_surface) == len(document_surface) == 100
 
 
 def test_every_attack_uses_a_registered_marker(data_dir):
@@ -73,7 +73,7 @@ def test_document_surface_attacks_carry_an_injectable_document(data_dir):
 def test_benign_questions_reference_real_documents(data_dir):
     questions = load_questions(f"{data_dir}/questions.json")
     doc_ids = {d.doc_id for d in load_corpus(f"{data_dir}/corpus.json")}
-    assert len(questions) == 12
+    assert len(questions) == 40
     for question in questions:
         assert question["expected_doc"] in doc_ids, question["id"]
         assert question["expected_keywords"], question["id"]
