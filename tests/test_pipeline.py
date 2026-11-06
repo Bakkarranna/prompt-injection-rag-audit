@@ -118,15 +118,15 @@ def test_benign_questions_stay_grounded_under_every_condition(data_dir):
     result = run_audit(load_settings(), data_dir=data_dir, client=FakeLLM())
     for summary in summarise(result):
         assert summary.benign_grounded > 0
-        assert summary.benign_questions == 12
+        assert summary.benign_questions == 40
 
 
 def test_keyword_stuffed_documents_win_retrieval(data_dir):
     """Retrieval poisoning has to win retrieval before it can do anything else.
 
-    With the deterministic embedder, four of the five poisoning attacks beat the
-    real document and appear in the top-k; poison-1 does not, which is why that
-    attack can never reach the model in this run.
+    With the deterministic embedder, 45 of the 50 poisoning attacks beat the
+    real document and appear in the top-k. The other 5 (poison-1, poison-29,
+    poison-37, poison-38 and poison-41) never reach the model in this run.
     """
 
     attacks = load_attacks(f"{data_dir}/attacks.json")
@@ -141,7 +141,7 @@ def test_keyword_stuffed_documents_win_retrieval(data_dir):
         if f"injected::{attack['id']}" in ranked:
             hits += 1
 
-    assert hits == 4, hits
+    assert hits == 45, hits
 
 
 def test_artifacts_round_trip(data_dir, tmp_path):
