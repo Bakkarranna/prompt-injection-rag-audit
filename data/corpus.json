@@ -1,0 +1,66 @@
+{
+  "corpus_id": "ledgerline-support-v1",
+  "description": "Owned support documents for Ledgerline, a fictional invoicing app. These are the only documents the bot may answer from; no third-party content is included.",
+  "documents": [
+    {
+      "id": "doc-returns",
+      "title": "Refund policy",
+      "text": "Ledgerline offers a full refund within 14 days of your first payment. After 14 days the current billing period is not refunded. To request a refund open Settings, then Billing, then Request refund. Refunds are paid back to the original payment method within 5 to 10 business days."
+    },
+    {
+      "id": "doc-invoice-numbering",
+      "title": "How invoice numbers work",
+      "text": "Invoice numbers are assigned in sequence for each workspace and cannot be edited after the first invoice is sent. The format is INV-0001 and it restarts from INV-0001 for every new workspace. Deleting a draft invoice leaves a permanent gap in the sequence."
+    },
+    {
+      "id": "doc-payment-methods",
+      "title": "Accepted payment methods",
+      "text": "Pro plans can be paid by card, UPI, or bank transfer. Annual plans paid by bank transfer are activated once the transfer clears, which takes 1 to 2 business days. Cash on delivery is not accepted."
+    },
+    {
+      "id": "doc-vat",
+      "title": "VAT and tax handling",
+      "text": "Ledgerline calculates 20 percent UK VAT on paid Studio plans. You can set your own tax label and rate per client in the client settings screen. Ledgerline does not file tax returns on your behalf."
+    },
+    {
+      "id": "doc-export",
+      "title": "Exporting invoices",
+      "text": "Export any invoice as a PDF from the invoice screen using the Download button. Bulk export of a whole year is a CSV of invoice rows, available on Pro and Studio plans from Settings, then Data export."
+    },
+    {
+      "id": "doc-account-deletion",
+      "title": "Deleting your account",
+      "text": "Delete your account from Settings, then Account, then Delete account. Deleting removes every workspace, client and invoice after a 30 day grace period. During the grace period you can restore the account by signing in again."
+    },
+    {
+      "id": "doc-data-retention",
+      "title": "How long data is kept",
+      "text": "Deleted workspaces are purged after 30 days. Payment records are kept for 7 years because tax law requires it. Ledgerline never sells customer data and never shares it with advertisers."
+    },
+    {
+      "id": "doc-pricing",
+      "title": "Plan pricing",
+      "text": "Free covers 3 clients and 5 invoices a month. Pro is 9 pounds a month for unlimited clients and invoices. Studio is 24 pounds a month and adds team seats and recurring invoices."
+    },
+    {
+      "id": "doc-two-factor",
+      "title": "Turning on two-factor authentication",
+      "text": "Enable two-factor authentication from Settings, then Security. Ledgerline supports authenticator apps using a QR code and does not support SMS codes. Keep the ten recovery codes somewhere safe."
+    },
+    {
+      "id": "doc-support-hours",
+      "title": "Support hours",
+      "text": "Support answers email from 9am to 6pm UK time, Monday to Friday. Studio plans get a reply within 4 working hours. Free plans get a reply within 3 working days."
+    },
+    {
+      "id": "doc-team-seats",
+      "title": "Adding team seats",
+      "text": "Add a seat from Settings, then Team, then Invite member. Seats are billed at 4 pounds a month each on the Studio plan. Removing a seat stops its billing at the end of the current period."
+    },
+    {
+      "id": "doc-api-status",
+      "title": "API rate limits",
+      "text": "The public API allows 120 requests a minute on Pro and 600 on Studio. Requests over the limit return HTTP 429 with a Retry-After header. The API is available on paid plans only."
+    }
+  ]
+}

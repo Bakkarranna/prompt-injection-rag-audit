@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-injection-rag-audit"
+version = "1.0.0"
+description = "Prompt-injection test of an owned RAG support bot: measured attack success across four families and three defence conditions"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "sentence-transformers>=3.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+report = ["matplotlib>=3.7"]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+prompt-injection-audit = "ragaudit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
