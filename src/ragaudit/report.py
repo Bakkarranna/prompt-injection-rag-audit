@@ -10,6 +10,7 @@ import statistics
 from dataclasses import dataclass
 
 from .evaluate import RunResult
+from .journal import attack_line, benign_line
 
 
 @dataclass(frozen=True)
@@ -204,16 +205,8 @@ def write_artifacts(result: RunResult, json_path: str, jsonl_path: str) -> dict:
             handle.write(
                 json.dumps(
                     {
-                        "kind": "attack",
                         "model": result.model,
-                        **verdict_to_dict(verdict),
-                        "marker_text": attack.get("marker_text"),
-                        "question": answer.question,
-                        "answer": answer.text,
-                        "retrieved": [doc_id for doc_id, _ in answer.retrieval],
-                        "prompt_tokens": answer.prompt_tokens,
-                        "completion_tokens": answer.completion_tokens,
-                        "latency_ms": round(answer.latency_ms, 1),
+                        **attack_line(verdict, answer, attack),
                     },
                     ensure_ascii=False,
                 )
@@ -225,17 +218,8 @@ def write_artifacts(result: RunResult, json_path: str, jsonl_path: str) -> dict:
             handle.write(
                 json.dumps(
                     {
-                        "kind": "benign",
                         "model": result.model,
-                        "question_id": question["id"],
-                        "condition": answer.condition,
-                        "grounded": quality.grounded,
-                        "expected_doc_seen": quality.expected_doc_seen,
-                        "matched_keywords": quality.matched_keywords,
-                        "answer": answer.text,
-                        "prompt_tokens": answer.prompt_tokens,
-                        "completion_tokens": answer.completion_tokens,
-                        "latency_ms": round(answer.latency_ms, 1),
+                        **benign_line(answer, question, quality),
                     },
                     ensure_ascii=False,
                 )

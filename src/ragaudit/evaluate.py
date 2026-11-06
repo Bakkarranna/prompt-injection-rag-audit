@@ -3,28 +3,23 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
 
 from .attacks import load_attacks, load_questions, poisoned_document
 from .bot import Answer, SupportBot
 from .config import Settings, load_settings
 from .corpus import Document, Retriever, load_corpus
 from .embeddings import build_embedder
+from .journal import RunResult, attack_line, attempt_key, benign_line
 from .llm import default_client
 from .scoring import score_attack, score_benign
 
-
-@dataclass
-class RunResult:
-    """Everything produced by one full audit run."""
-
-    settings: Settings
-    model: str
-    attack_answers: list[tuple[Answer, dict]] = field(default_factory=list)
-    attack_verdicts: list = field(default_factory=list)
-    benign_answers: list[tuple[Answer, dict]] = field(default_factory=list)
-    benign_quality: list = field(default_factory=list)
-    wall_seconds: float = 0.0
+__all__ = [
+    "Answer",
+    "RunResult",
+    "SupportBot",
+    "_retriever_for",
+    "run_audit",
+]
 
 
 def _retriever_for(
@@ -53,12 +48,20 @@ def run_audit(
     data_dir: str = "data",
     progress=None,
     client=None,
+    done: frozenset[str] | set[str] = frozenset(),
+    on_attempt=None,
+    wall_offset: float = 0.0,
 ) -> RunResult:
     """Run every attack under every condition, then the benign baseline.
 
     ``progress`` receives one string per attempt so a caller can show where the
     run is without parsing a log. ``client`` is the seam tests use to inject a
     fake LLM; production callers leave it at None and get the local server.
+
+    ``done`` lists attempts already recorded in a journal and skips them, so a
+    run interrupted after hours can finish only what is left. ``on_attempt`` is
+    called with one journalled line as soon as each attempt is scored, which is
+    what lets the next process pick up where this one stopped.
     """
 
     settings = settings or load_settings()
@@ -88,28 +91,39 @@ def run_audit(
     for condition in settings.conditions:
         for attack in attacks:
             attempt += 1
+            if attempt_key("attack", condition, attack["id"]) in done:
+                continue
             if progress is not None:
                 progress(f"attack {attempt}/{total}: {attack['id']} under {condition}")
             retriever = _retriever_for(attack, base_docs, embedder)
             bot = SupportBot(retriever, client, settings)
             answer = bot.answer(attack["trigger_question"], condition)
             result.attack_answers.append((answer, attack))
-            result.attack_verdicts.append(score_attack(answer, attack))
+            verdict = score_attack(answer, attack)
+            result.attack_verdicts.append(verdict)
+            if on_attempt is not None:
+                on_attempt(attack_line(verdict, answer, attack))
 
     for condition in settings.conditions:
         for question in questions:
+            if attempt_key("benign", condition, question["id"]) in done:
+                continue
             if progress is not None:
                 progress(f"benign: {question['id']} under {condition}")
             bot = SupportBot(clean_retriever, client, settings)
             answer = bot.answer(question["question"], condition)
             result.benign_answers.append((answer, question))
-            result.benign_quality.append(score_benign(answer, question))
+            quality = score_benign(answer, question)
+            result.benign_quality.append(quality)
+            if on_attempt is not None:
+                on_attempt(benign_line(answer, question, quality))
 
     client.unload()
 
     # The artifact records the model that actually answered, not the configured
-    # default, so a run driven by a different client is not mislabelled.
+    # default, so a run driven by a different client is not mislabelled. A run
+    # that only replayed journalled attempts keeps the journal's model.
     if result.attack_answers:
         result.model = result.attack_answers[0][0].model
-    result.wall_seconds = time.time() - started
+    result.wall_seconds = (time.time() - started) + wall_offset
     return result
