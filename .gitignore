@@ -11,3 +11,7 @@ venv/
 # The run journal that lets a stopped audit resume; the committed record of the
 # same attempts is results/audit.jsonl
 results/audit.journal.jsonl
+
+# Console log of the scaled audit run; the committed record of the same
+# attempts is results/audit.jsonl
+results/audit-run.log
