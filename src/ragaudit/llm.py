@@ -9,6 +9,8 @@ sampling effect that is itself worth reporting.
 from __future__ import annotations
 
 import os
+import sys
+import time
 from dataclasses import dataclass
 
 import requests
@@ -26,7 +28,15 @@ class Completion:
 
 
 class OllamaClient:
-    """A minimal Ollama /api/generate client."""
+    """A minimal Ollama /api/generate client.
+
+    A stalled answer raises a read timeout. The payload is fixed at temperature
+    0 and seed 42, so re-asking the same question after a transport failure
+    asks for the answer the ask would have produced: a retry costs time without
+    changing the record. Three attempts are made before the error propagates.
+    """
+
+    attempts: int = 3
 
     def __init__(
         self,
@@ -46,16 +56,35 @@ class OllamaClient:
             "stream": False,
             "options": {"temperature": 0, "seed": 42},
         }
-        response = requests.post(f"{self.url}/api/generate", json=payload, timeout=self.timeout_s)
-        response.raise_for_status()
-        body = response.json()
-        return Completion(
-            text=str(body.get("response", "")).strip(),
-            prompt_tokens=int(body.get("prompt_eval_count", 0)),
-            completion_tokens=int(body.get("eval_count", 0)),
-            latency_ms=float(body.get("total_duration", 0)) / 1e6,
-            model=self.model,
-        )
+        last_error: Exception | None = None
+        for attempt in range(1, self.attempts + 1):
+            try:
+                response = requests.post(
+                    f"{self.url}/api/generate", json=payload, timeout=self.timeout_s
+                )
+                response.raise_for_status()
+                body = response.json()
+            except (requests.Timeout, requests.ConnectionError) as error:
+                # Transport failure rather than a bad request, so the same
+                # payload is worth sending again.
+                last_error = error
+                if attempt == self.attempts:
+                    break
+                print(
+                    f"  retry {attempt}/{self.attempts - 1} after {type(error).__name__}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                time.sleep(5.0)
+                continue
+            return Completion(
+                text=str(body.get("response", "")).strip(),
+                prompt_tokens=int(body.get("prompt_eval_count", 0)),
+                completion_tokens=int(body.get("eval_count", 0)),
+                latency_ms=float(body.get("total_duration", 0)) / 1e6,
+                model=self.model,
+            )
+        raise last_error if last_error is not None else RuntimeError("no attempt")
 
     def available(self) -> bool:
         """Report whether the local server answers, so callers can skip it."""
