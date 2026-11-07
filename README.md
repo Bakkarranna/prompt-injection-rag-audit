@@ -273,7 +273,9 @@ aggregation without a model or a server. CI runs both on every push to `main`.
   them.
 
 The report is generated into `docs/` and the Pages workflow publishes it on every push.
-As of 2026-11-07 that URL returns HTTP 404: the deploy job reports success and the
-deployment artifact exists, but the API still reports the Pages site as unbuilt, so the
-committed copy of the report is the record:
+`scripts/check_pages.py` requests that URL when the report is regenerated and records
+the status it answers next to the measured numbers, as `pages_status` in
+`results/audit.json`. It answered HTTP 404 at 2026-11-07T18:39:23Z: the deploy job
+reports success and the deployment artifact exists, but the API still reports the
+Pages site as unbuilt, so the committed copy of the report is the record:
 <https://bakkarrarna.github.io/prompt-injection-rag-audit/>

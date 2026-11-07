@@ -7942,5 +7942,11 @@
         "workspace"
       ]
     }
-  ]
+  ],
+  "pages_status": {
+    "url": "https://bakkarrarna.github.io/prompt-injection-rag-audit/",
+    "http_status": 404,
+    "checked_at": "2026-11-07T18:39:23Z",
+    "error": null
+  }
 }

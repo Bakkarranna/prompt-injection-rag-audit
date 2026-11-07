@@ -88,6 +88,14 @@ working hours, while `benign-support-free` never had its expected document
 retrieved in any condition. The prompt-leak markers and the fence wording were
 chosen before the run, not after seeing the answers.
 
+## Served status
+
+The GitHub Pages URL was requested when this report was regenerated and
+answered HTTP 404 at 2026-11-07T18:39:23Z, so the site is not being served and
+this committed copy is the record. The status is stored with the measured
+numbers as `pages_status` in `results/audit.json` and is refreshed by
+`scripts/check_pages.py`.
+
 The full report, the attack set and the scripts that produced every number are
 in the repository:
 [prompt-injection-rag-audit](https://github.com/Bakkarrarna/prompt-injection-rag-audit).
