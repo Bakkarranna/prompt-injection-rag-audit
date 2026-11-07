@@ -272,5 +272,8 @@ aggregation without a model or a server. CI runs both on every push to `main`.
   process, which replayed 118 attempts from the journal instead of regenerating
   them.
 
-The report is published as GitHub Pages from `docs/`:
+The report is generated into `docs/` and the Pages workflow publishes it on every push.
+As of 2026-11-07 that URL returns HTTP 404: the deploy job reports success and the
+deployment artifact exists, but the API still reports the Pages site as unbuilt, so the
+committed copy of the report is the record:
 <https://bakkarrarna.github.io/prompt-injection-rag-audit/>
