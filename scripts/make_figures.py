@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 """Regenerate the report figures from results/audit.json.
 
-Three figures, all read from the measured artifact:
+Three figures, all read from the measured artifact and all sized from it, so the
+same script draws the 20-attack record and the scaled one without an edit:
 
 * attacks that succeeded under each defence condition
 * successes by attack family and condition
-* latency of the 60 attack attempts by condition, with the median marked
+* latency of the attack attempts by condition, with the median marked
 
 Usage:
     python scripts/make_figures.py [--record results/audit.json] [--out-dir docs/figures]
@@ -44,16 +45,28 @@ def _record(path: str) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+def _ceil_limit(value: int) -> int:
+    """An axis limit just above `value`, so the annotations clear the bars."""
+    if value <= 0:
+        return 1
+    step = 10 ** (len(str(value)) - 1)
+    return ((value // step) + 2) * step
+
+
 def success_by_condition(record: dict, out_dir: Path) -> Path:
     summaries = record["summaries"]
     conditions = [s["condition"] for s in summaries]
     successes = [s["successes"] for s in summaries]
+    total = summaries[0]["attacks"]
+    conditions_total = {s["attacks"] for s in summaries}
+    if conditions_total != {total}:
+        raise ValueError(f"inconsistent attack totals across conditions: {conditions_total}")
 
     fig, ax = plt.subplots(figsize=(5.2, 3.4))
     bars = ax.bar(conditions, successes, width=0.55, color=[ACCENT, ACCENT_SOFT, ACCENT_SOFT])
     for bar, value in zip(bars, successes, strict=True):
         ax.annotate(
-            f"{value} of 20",
+            f"{value} of {total}",
             (bar.get_x() + bar.get_width() / 2, value),
             textcoords="offset points",
             xytext=(0, 4),
@@ -61,7 +74,7 @@ def success_by_condition(record: dict, out_dir: Path) -> Path:
             fontsize=9,
             color=INK,
         )
-    ax.set_ylim(0, 8)
+    ax.set_ylim(0, _ceil_limit(max(successes)))
     ax.set_ylabel("attacks that succeeded")
     ax.set_title("Attack success by defence condition", color=INK, fontsize=11)
     _style(ax)
@@ -76,9 +89,12 @@ def success_by_family(record: dict, out_dir: Path) -> Path:
     attacks = record["attacks"]
     conditions = record["conditions"]
     families = sorted({a["family"] for a in attacks})
+    per_family = max(sum(1 for a in attacks if a["family"] == family) for family in families)
+    per_condition = per_family // len(conditions)
 
     fig, ax = plt.subplots(figsize=(6.4, 3.6))
     width = 0.26
+    highest = 0
     for index, condition in enumerate(conditions):
         values = [
             sum(
@@ -90,13 +106,14 @@ def success_by_family(record: dict, out_dir: Path) -> Path:
             )
             for family in families
         ]
+        highest = max(highest, max(values))
         offsets = [i + (index - 1) * width for i in range(len(families))]
         colour = ACCENT if index == 0 else ACCENT_SOFT
         ax.bar(offsets, values, width=width, label=condition, color=colour)
     ax.set_xticks(range(len(families)))
     ax.set_xticklabels([f.replace("_", "\n") for f in families], fontsize=8)
-    ax.set_ylim(0, 5)
-    ax.set_ylabel("attacks that succeeded (of 5)")
+    ax.set_ylim(0, _ceil_limit(highest))
+    ax.set_ylabel(f"attacks that succeeded (of {per_condition})")
     ax.set_title("Successes by attack family and condition", color=INK, fontsize=11)
     ax.legend(frameon=False, fontsize=8, ncols=3, loc="upper center")
     _style(ax)
@@ -110,6 +127,9 @@ def success_by_family(record: dict, out_dir: Path) -> Path:
 def latency_by_condition(record: dict, out_dir: Path) -> Path:
     attacks = record["attacks"]
     conditions = record["conditions"]
+    per_condition = max(
+        sum(1 for a in attacks if a["condition"] == condition) for condition in conditions
+    )
 
     fig, ax = plt.subplots(figsize=(6.4, 3.4))
     for index, condition in enumerate(conditions):
@@ -130,7 +150,7 @@ def latency_by_condition(record: dict, out_dir: Path) -> Path:
     ax.set_xticklabels(conditions)
     ax.set_xlim(-0.6, len(conditions) - 0.4)
     ax.set_ylabel("latency (ms)")
-    ax.set_title("Latency of the 60 attack attempts", color=INK, fontsize=11)
+    ax.set_title(f"Latency of the {per_condition} attack attempts", color=INK, fontsize=11)
     _style(ax)
     fig.tight_layout()
     path = out_dir / "latency_by_condition.png"
