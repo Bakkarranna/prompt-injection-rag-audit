@@ -7944,9 +7944,9 @@
     }
   ],
   "pages_status": {
-    "url": "https://bakkarrarna.github.io/prompt-injection-rag-audit/",
-    "http_status": 404,
-    "checked_at": "2026-11-07T18:39:23Z",
+    "url": "https://bakkarranna.github.io/prompt-injection-rag-audit/",
+    "http_status": 200,
+    "checked_at": "2026-11-07T20:29:07Z",
     "error": null
   }
 }
