@@ -71,7 +71,12 @@ def _pages_url() -> str:
     override = os.environ.get("PAGES_URL")
     if override:
         return override
-    owner = _remote_owner() or "Bakkarrana"
+    owner = _remote_owner()
+    if owner is None:
+        raise SystemExit(
+            "cannot read the account from the origin remote; refusing to guess a "
+            "host, because a host nobody owns answers 404 and reads as an outage."
+        )
     return f"https://{owner.lower()}.github.io/{REPO_NAME}/"
 
 
