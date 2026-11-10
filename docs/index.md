@@ -98,4 +98,4 @@ numbers as `pages_status` in `results/audit.json` and is refreshed by
 
 The full report, the attack set and the scripts that produced every number are
 in the repository:
-[prompt-injection-rag-audit](https://github.com/Bakkarrarna/prompt-injection-rag-audit).
+[prompt-injection-rag-audit](https://github.com/Bakkarranna/prompt-injection-rag-audit).

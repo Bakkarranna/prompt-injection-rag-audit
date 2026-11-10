@@ -1,7 +1,7 @@
 # Prompt Injection Audit for a RAG Support Bot
 
-[![CI](https://github.com/Bakkarrarna/prompt-injection-rag-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/Bakkarrarna/prompt-injection-rag-audit/actions/workflows/ci.yml)
-[![Pages](https://github.com/Bakkarrarna/prompt-injection-rag-audit/actions/workflows/pages.yml/badge.svg)](https://github.com/Bakkarrarna/prompt-injection-rag-audit/actions/workflows/pages.yml)
+[![CI](https://github.com/Bakkarranna/prompt-injection-rag-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/Bakkarranna/prompt-injection-rag-audit/actions/workflows/ci.yml)
+[![Pages](https://github.com/Bakkarranna/prompt-injection-rag-audit/actions/workflows/pages.yml/badge.svg)](https://github.com/Bakkarranna/prompt-injection-rag-audit/actions/workflows/pages.yml)
 
 A support bot for a fictional invoicing app answers questions from twelve of its
 own documents. Two hundred attacks were written against it, and every attack was
